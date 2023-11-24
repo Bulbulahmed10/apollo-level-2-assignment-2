@@ -1,4 +1,4 @@
-import { TUser } from './user.interface';
+import { TOrder, TUser } from './user.interface';
 import { User } from './user.model';
 
 const createUserService = async (userInfo: TUser) => {
@@ -41,14 +41,10 @@ const updateSingleUserByIdService = async (
 ) => {
   const isUserExists = await User.isUserExists(userId);
   if (isUserExists) {
-    const result = await User.findOneAndUpdate(
-      { userId },
-      { $set: updatedDoc },
-      {
-        runValidators: true,
-        new: true,
-      },
-    ).select('-password');
+    const result = await User.findOneAndUpdate({ userId }, updatedDoc, {
+      runValidators: true,
+      new: true,
+    }).select('-password');
     return result;
   } else {
     throw {
@@ -79,10 +75,96 @@ const deleteSingleUserByIdService = async (userId: number) => {
   }
 };
 
+const addUserOrderService = async (userId: number, orderData: TOrder) => {
+  const isUserExists = await User.isUserExists(userId);
+  if (isUserExists) {
+    const result = await User.findOneAndUpdate(
+      { userId },
+      { $push: { orders: orderData } },
+      { runValidators: true },
+    );
+    return result;
+  } else {
+    throw {
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    };
+  }
+};
+
+const getUserOrdersService = async (userId: number) => {
+  const isUserExists = await User.isUserExists(userId);
+  if (isUserExists) {
+    const result = await User.findOne({ userId }, { orders: 1 });
+    return result;
+  } else {
+    throw {
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    };
+  }
+};
+
+const getUserOrderTotalPriceService = async (userId: number) => {
+  const isUserExists = await User.isUserExists(userId);
+  if (isUserExists) {
+    const result = await User.aggregate([
+      {
+        $match: {
+          userId: userId,
+        },
+      },
+      {
+        $unwind: '$orders',
+      },
+      {
+        $group: {
+          _id: '$userId',
+          totalPrice: {
+            $sum: {
+              $multiply: ['$orders.price', '$orders.quantity'],
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          userId: '$_id',
+          totalPrice: {
+            $round: ['$totalPrice', 2],
+          },
+        },
+      },
+    ]);
+    return result;
+  } else {
+    throw {
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    };
+  }
+};
+
 export const UserServices = {
   createUserService,
   getAllUsersService,
   getSingleUserByIdService,
   updateSingleUserByIdService,
   deleteSingleUserByIdService,
+  addUserOrderService,
+  getUserOrdersService,
+  getUserOrderTotalPriceService,
 };

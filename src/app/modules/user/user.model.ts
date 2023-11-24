@@ -1,4 +1,4 @@
-import { Query, Schema, model } from 'mongoose';
+import {  Schema, model } from 'mongoose';
 import { TOrder, TUser, UserModel } from './user.interface';
 import bcrypt from 'bcryptjs';
 import config from '../../config';
