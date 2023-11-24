@@ -34,9 +34,36 @@ const getSingleUserByIdService = async (userId: number) => {
     };
   }
 };
+const updateSingleUserByIdService = async (
+  userId: number,
+  updatedDoc: TUser,
+) => {
+  const isUserExists = await User.isUserExists(userId);
+  if (isUserExists) {
+    const result = await User.findOneAndUpdate(
+      { userId },
+      { $set: updatedDoc },
+      {
+        runValidators: true,
+        new: true,
+      },
+    ).select('-password');
+    return result;
+  } else {
+    throw {
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    };
+  }
+};
 
 export const UserServices = {
   createUserService,
   getAllUsersService,
   getSingleUserByIdService,
+  updateSingleUserByIdService,
 };
