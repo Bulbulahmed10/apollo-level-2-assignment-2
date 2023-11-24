@@ -18,9 +18,21 @@ const getAllUsersService = async () => {
   return result;
 };
 
-const getSingleUserByIdService = async (userId: string) => {
-  const result = await User.findById(userId);
-  return result;
+const getSingleUserByIdService = async (userId: number) => {
+  const isUserExists = await User.isUserExists(userId);
+  if (isUserExists) {
+    const result = await User.findOne({ userId }, { password: 0 });
+    return result;
+  } else {
+    throw {
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    };
+  }
 };
 
 export const UserServices = {

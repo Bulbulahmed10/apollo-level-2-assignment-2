@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Query, Schema, model } from 'mongoose';
 import { TOrder, TUser, UserModel } from './user.interface';
 import bcrypt from 'bcryptjs';
 import config from '../../config';
@@ -105,12 +105,13 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+
 userSchema.post('save', function (doc, next) {
   doc.password = '';
   next();
 });
 
-userSchema.statics.isUserExists = async function (id: string) {
+userSchema.statics.isUserExists = async function (id: number) {
   const existingUser = await User.findOne({ userId: id });
   return existingUser;
 };

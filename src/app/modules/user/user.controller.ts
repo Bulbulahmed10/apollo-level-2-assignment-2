@@ -40,9 +40,10 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getSingleUserById = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId
-    const result = await UserServices.getSingleUserByIdService(userId);
-    res.status(201).json({
+    const userId = req.params.userId;
+    const result = await UserServices.getSingleUserByIdService(Number(userId));
+    console.log("getsingle user id", result);
+    res.status(200).json({
       success: true,
       message: 'User fetched successfully',
       data: result,
@@ -51,12 +52,13 @@ const getSingleUserById = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: error.message || 'Something went wrong',
-      error: error,
+      error: error?.error,
     });
   }
-}
+};
 
 export const UserControllers = {
   createUser,
-  getAllUsers
+  getAllUsers,
+  getSingleUserById,
 };
