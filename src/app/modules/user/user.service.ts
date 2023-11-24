@@ -1,6 +1,7 @@
 import { TOrder, TUser } from './user.interface';
 import { User } from './user.model';
 
+// create user service
 const createUserService = async (userInfo: TUser) => {
   if (await User.isUserExists(userInfo.userId)) {
     throw new Error('User already exists');
@@ -9,7 +10,7 @@ const createUserService = async (userInfo: TUser) => {
   const result = await User.create(userInfo);
   return result;
 };
-
+// get all user
 const getAllUsersService = async () => {
   const result = await User.find(
     {},
@@ -18,6 +19,7 @@ const getAllUsersService = async () => {
   return result;
 };
 
+// get single user by id
 const getSingleUserByIdService = async (userId: number) => {
   const isUserExists = await User.isUserExists(userId);
   if (isUserExists) {
@@ -35,6 +37,7 @@ const getSingleUserByIdService = async (userId: number) => {
   }
 };
 
+// update single user by id
 const updateSingleUserByIdService = async (
   userId: number,
   updatedDoc: TUser,
@@ -58,6 +61,7 @@ const updateSingleUserByIdService = async (
   }
 };
 
+// delete single user by id
 const deleteSingleUserByIdService = async (userId: number) => {
   const isUserExists = await User.isUserExists(userId);
   if (isUserExists) {
@@ -75,6 +79,7 @@ const deleteSingleUserByIdService = async (userId: number) => {
   }
 };
 
+// add user order
 const addUserOrderService = async (userId: number, orderData: TOrder) => {
   const isUserExists = await User.isUserExists(userId);
   if (isUserExists) {
@@ -95,7 +100,7 @@ const addUserOrderService = async (userId: number, orderData: TOrder) => {
     };
   }
 };
-
+// get user orders
 const getUserOrdersService = async (userId: number) => {
   const isUserExists = await User.isUserExists(userId);
   if (isUserExists) {
@@ -112,7 +117,7 @@ const getUserOrdersService = async (userId: number) => {
     };
   }
 };
-
+// get user orders total price
 const getUserOrderTotalPriceService = async (userId: number) => {
   const isUserExists = await User.isUserExists(userId);
   if (isUserExists) {
