@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { userValidationSchema } from './user.validation';
 import { UserServices } from './user.service';
 
+// create user controller
 const createUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
@@ -22,6 +23,7 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
+// get all user controller
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     const result = await UserServices.getAllUsersService();
@@ -39,6 +41,7 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+// get single user by id controller
 const getSingleUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -57,6 +60,8 @@ const getSingleUserById = async (req: Request, res: Response) => {
     });
   }
 };
+
+// update single user by id 
 const updateSingleUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
