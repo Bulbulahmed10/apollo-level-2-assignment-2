@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { userValidationSchema } from './user.validation';
 import { UserServices } from './user.service';
@@ -69,6 +70,7 @@ const updateSingleUserById = async (req: Request, res: Response) => {
       message: 'User updated successfully!',
       data: result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -81,6 +83,7 @@ const updateSingleUserById = async (req: Request, res: Response) => {
 const deleteSingleUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const result = await UserServices.deleteSingleUserByIdService(
       Number(userId),
     );
@@ -103,6 +106,7 @@ const addUserOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const orderData = req.body;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const result = await UserServices.addUserOrderService(
       Number(userId),
       orderData,
@@ -112,6 +116,7 @@ const addUserOrder = async (req: Request, res: Response) => {
       message: 'Order created successfully',
       data: null,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -140,7 +145,9 @@ const getUserOrders = async (req: Request, res: Response) => {
 const getUserOrderTotalPrice = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const result = await UserServices.getUserOrderTotalPriceService(Number(userId));
+    const result = await UserServices.getUserOrderTotalPriceService(
+      Number(userId),
+    );
     res.status(200).json({
       success: true,
       message: 'total price calculated successfully',
@@ -163,5 +170,5 @@ export const UserControllers = {
   deleteSingleUserById,
   addUserOrder,
   getUserOrders,
-  getUserOrderTotalPrice
+  getUserOrderTotalPrice,
 };
