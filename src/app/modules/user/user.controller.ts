@@ -84,7 +84,7 @@ const updateSingleUserById = async (req: Request, res: Response) => {
     });
   }
 };
-
+// delete single user by id
 const deleteSingleUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -107,6 +107,7 @@ const deleteSingleUserById = async (req: Request, res: Response) => {
   }
 };
 
+// add user order
 const addUserOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -130,6 +131,8 @@ const addUserOrder = async (req: Request, res: Response) => {
     });
   }
 };
+
+// get user all orders
 const getUserOrders = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
@@ -147,6 +150,7 @@ const getUserOrders = async (req: Request, res: Response) => {
     });
   }
 };
+// calculate users order total price
 const getUserOrderTotalPrice = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
