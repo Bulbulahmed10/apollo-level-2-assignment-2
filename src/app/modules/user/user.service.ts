@@ -34,6 +34,7 @@ const getSingleUserByIdService = async (userId: number) => {
     };
   }
 };
+
 const updateSingleUserByIdService = async (
   userId: number,
   updatedDoc: TUser,
@@ -61,9 +62,27 @@ const updateSingleUserByIdService = async (
   }
 };
 
+const deleteSingleUserByIdService = async (userId: number) => {
+  const isUserExists = await User.isUserExists(userId);
+  if (isUserExists) {
+    const result = await User.findOneAndDelete({ userId });
+    return result;
+  } else {
+    throw {
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    };
+  }
+};
+
 export const UserServices = {
   createUserService,
   getAllUsersService,
   getSingleUserByIdService,
   updateSingleUserByIdService,
+  deleteSingleUserByIdService,
 };

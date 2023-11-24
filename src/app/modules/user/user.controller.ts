@@ -42,7 +42,7 @@ const getSingleUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const result = await UserServices.getSingleUserByIdService(Number(userId));
-    console.log('getsingle user id', result);
+
     res.status(200).json({
       success: true,
       message: 'User fetched successfully',
@@ -78,9 +78,31 @@ const updateSingleUserById = async (req: Request, res: Response) => {
   }
 };
 
+const deleteSingleUserById = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const result = await UserServices.deleteSingleUserByIdService(
+      Number(userId),
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully',
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error?.error,
+    });
+  }
+};
+
 export const UserControllers = {
   createUser,
   getAllUsers,
   getSingleUserById,
-  updateSingleUserById
+  updateSingleUserById,
+  deleteSingleUserById,
 };
