@@ -5,7 +5,7 @@
 *1. Clone the repository:* `git clone` [https://github.com/Bulbulahmed10/apollo-level-2-assignment-2.git](https://)
 
 *2. Navigate to the project directory:* 
- `cd assignment-2`
+ `cd apollo-level-2-assignment-2`
 
 *3. Install dependencies:* 
 `npm install`
