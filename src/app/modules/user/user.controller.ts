@@ -61,7 +61,7 @@ const getSingleUserById = async (req: Request, res: Response) => {
   }
 };
 
-// update single user by id 
+// update single user by id
 const updateSingleUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
